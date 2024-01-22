@@ -6,11 +6,11 @@ import hiber.model.User;
 import hiber.service.UserService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
-import java.sql.SQLException;
+import javax.persistence.NoResultException;
 import java.util.List;
 
 public class MainApp {
-    public static void main(String[] args) throws SQLException {
+    public static void main(String[] args) {
         AnnotationConfigApplicationContext context =
                 new AnnotationConfigApplicationContext(AppConfig.class);
 
@@ -60,16 +60,16 @@ public class MainApp {
 
         System.out.println();
         System.out.println("Search data with params");
-        List<User> usersWithCar = userService.getUserByModelAndSeries("ZIL", 104);
-        System.out.println();
-        if (usersWithCar.isEmpty()) {
-            System.out.println("Data with such params not found");
-        } else {
-            for (User user : usersWithCar) {
-                System.out.println(user);
-            }
+        try {
+            User userWithCar = userService.getUserByModelAndSeries("ZIL", 104);
+            System.out.println();
+            System.out.println(userWithCar);
+        } catch (NoResultException e) {
+            System.out.println();
+            System.out.println("There is no user with such car");
+        } finally {
+            System.out.println();
         }
-        System.out.println();
 
         context.close();
     }

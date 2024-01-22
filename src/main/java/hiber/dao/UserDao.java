@@ -14,5 +14,5 @@ public interface UserDao {
 
     List<Car> listCars();
 
-    List<User> getUserByModelAndSeries(String model, int series);
+    User getUserByModelAndSeries(String model, int series);
 }
